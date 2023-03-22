@@ -1,0 +1,1212 @@
+body{
+    font-family: '94cda963bd2cf599314fe42bc8bc131c093a88bc8d1ac5c378c70385c8d18fcb';
+    font-weight: 500;
+    font-style: normal;
+}
+
+.hud-font-bold{
+    font-family: '18946ae4fb92ed17e61b1d1079f05eac5da035011ef9d5efeb5acbd1cea6d079';
+    font-weight: bold;
+    font-style: normal;
+}
+
+.hud-grad-left{
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+51,000000+100&0.65+51,0.65+52,0.65+52,0+100 */
+    background: -moz-linear-gradient(left, rgba(0,0,0,0.65) 51%, rgba(0,0,0,0.65) 52%, rgba(0,0,0,0) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, rgba(0,0,0,0.65) 51%,rgba(0,0,0,0.65) 52%,rgba(0,0,0,0) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, rgba(0,0,0,0.65) 51%,rgba(0,0,0,0.65) 52%,rgba(0,0,0,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', endColorstr='#00000000',GradientType=1 ); /* IE6-9 */
+}
+
+.hud-grad-right{
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+49&0+0,0.65+48,0.65+48,0.65+49 */
+    background: -moz-linear-gradient(left, rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 48%, rgba(0,0,0,0.65) 49%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 48%,rgba(0,0,0,0.65) 49%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 48%,rgba(0,0,0,0.65) 49%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+.hud-grad-right-white{
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+49&0+0,0.65+48,0.65+48,0.65+49 */
+    background: -moz-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,0.65) 48%, rgba(255,255,255,0.65) 49%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%,rgba(255,255,255,0.65) 48%,rgba(255,255,255,0.65) 49%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%,rgba(255,255,255,0.65) 48%,rgba(255,255,255,0.65) 49%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+.hud-health-armor{
+    color: white;
+    position: fixed;
+    /*background: rgba(0, 0, 0, 0.4);*/
+    left: 0;
+    bottom: 0;
+    z-index: 12;
+    font-size: 50px;
+    height: 45px;
+    width: 250px;
+    border-top: 1px solid white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 1);
+}
+
+.hud-health-armor .hud-icon{
+    font-family: 'Counter-Strike';
+    width: 35px;
+    height: 100%;
+    margin-top: 0;
+    margin-right: 5px;
+    font-size: 40px;
+    bottom: 5px;
+    margin-left: 5px;
+    position: relative;
+    color: #d6d6d6;
+}
+
+.hud-health-armor .hud-val{
+    margin-top: -5px;
+    margin-right: 5px;
+    font-size: 38px;
+}
+
+.hud-health-armor > div, .hud-health-armor > div > div{
+    float: left;
+}
+
+.hud-health-armor .hud-val-bar{
+    height: 10px;
+    width: 60px;
+    margin-top: 25px;
+}
+
+.hud-health-armor .hud-val-bar div{
+    height: 10px;
+    width: 100%;
+}
+
+.hud-health, .hud-armor{
+    width: 50%;
+}
+
+.hud-val-bar div{
+    background: whitesmoke;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 1);
+}
+
+/* HUD AMMO */
+.hud-ammo{
+    color: #d6d6d6;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    z-index: 12;
+    font-size: 38px;
+    height: 45px;
+    width: 250px;
+    border-top: 1px solid white;
+    text-align: center;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 1);
+}
+
+.hud-ammo span {
+    bottom: 5px;
+    position: relative;
+}
+
+.hud-weapons{
+    color: #eaeaea;
+    position: fixed;
+    right: 0;
+    bottom: 60px;
+    z-index: 12;
+    width: 200px;
+    text-align: right;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 1);
+}
+
+.hud-weapon{
+    font-size: 3em;
+    font-family: 'cs';
+    font-weight: normal;
+    font-style: normal;
+}
+
+.hud-grenade-he {
+    color: #ec6532;
+}
+
+.hud-grenade-fl {
+    color: #cccccc;
+}
+
+.hud-grenade-sm {
+    color: #89ab00;
+}
+
+.hud-weapon span{
+    font-family: '94cda963bd2cf599314fe42bc8bc131c093a88bc8d1ac5c378c70385c8d18fcb';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 15px;
+    margin: 0 10px 0 10px;
+}
+
+/* HUD MONEY */
+.hud-money{
+    color: #81D0FF;
+    position: fixed;
+    left: 0;
+    top: 200px;
+    z-index: 12;
+    font-size: 35px;
+    height: 45px;
+    width: 200px;
+    text-align: left;
+    padding-left: 5px;
+    padding-bottom: 4px;
+}
+
+/* HUD MONEY */
+.hud-radar{
+    top: 56px;
+    left: 10px;
+    position: fixed;
+    z-index: 12;
+}
+
+.hud-radar-circle{
+    /*width: 180px;*/
+    /*height: 180px;*/
+
+    width: 130px;
+    height: 130px;
+
+    -webkit-border-radius: 200px;
+    -moz-border-radius: 200px;
+    border-radius: 200px;
+    border: 1px rgba(255,255,255,0.4) solid;
+    background: rgba(0, 0, 0, 0.3) url("radar-pointer.png") no-repeat center;
+
+    /*border: 1px black solid;*/
+    overflow: hidden;
+    position: relative;
+}
+
+.hud-radar-vert{
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 1px;
+    height: 100%;
+    background: rgba(255,255,255,0.2)
+}
+
+.hud-radar-horiz{
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+    background: rgba(255,255,255,0.2);
+}
+
+.hud-radar-circle .hud-radar-point{
+    width: 3px;
+    height: 3px;
+    border-radius: 3px;
+    background: white;
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    /*border: 1px solid rgba(255,255,255,0.5);*/
+}
+
+/* HUD TEAM SCORE */
+.hud-team-score{
+    color: #81D0FF;
+    position: fixed;
+    left: 50%;
+    top: 0;
+    z-index: 12;
+    font-size: 30px;
+    width: 100px;
+    margin-left: -50px;
+    text-align: center;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 1);
+
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+51&0+0,0.3+20,0.3+51,0.3+80,0+100 */
+    background: -moz-linear-gradient(left, rgba(0,0,0,0) 0%, rgba(0,0,0,0.3) 20%, rgba(0,0,0,0.3) 51%, rgba(0,0,0,0.3) 80%, rgba(0,0,0,0) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, rgba(0,0,0,0) 0%,rgba(0,0,0,0.3) 20%,rgba(0,0,0,0.3) 51%,rgba(0,0,0,0.3) 80%,rgba(0,0,0,0) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, rgba(0,0,0,0) 0%,rgba(0,0,0,0.3) 20%,rgba(0,0,0,0.3) 51%,rgba(0,0,0,0.3) 80%,rgba(0,0,0,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#00000000',GradientType=1 ); /* IE6-9 */
+}
+.round_block {
+    top: 33px;
+    color: white;
+    font-size: 1em;
+    height: 24px;
+}
+#round_block {
+    display: none;
+}
+
+.hud-team-score > div{
+    /*width: 33%;
+    float: left;*/
+}
+
+.hud-t-win-block{
+    color: #FFDD66;
+}
+
+.hud-timer-block{
+    color: white;
+}
+
+.hud-timer-icon{
+    font-family: 'Counter-Strike';
+    font-weight: normal;
+    font-style: normal;
+}
+
+.hud-timer-val{
+    font-size: 24px;
+}
+
+.hud-round-block{
+    font-size: 14px;
+}
+
+/* SOME ICONS */
+.hud-bomb, .hud-buyzone, .hud-defuse-kit, .hud-bomb-timer{
+    font-family: 'Counter-Strike';
+    font-weight: normal;
+    font-style: normal;
+}
+
+.hud-bomb, .hud-defuse-kit{
+    color: #00ff00;
+    position: fixed;
+    left: 0;
+    top: 340px;
+    z-index: 12;
+    font-size: 30px;
+    height: 45px;
+    width: 200px;
+    text-align: left;
+    padding-left: 5px;
+}
+
+.hud-bomb-planted {
+    position: fixed;
+    top: 40px;
+    left: 49%;
+    margin-left: -30px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+.hud-bomb-timer {
+    float: left;
+    z-index: 12;
+    font-size: 30px;
+    height: 45px;
+    text-align: left;
+    padding-left: 5px;
+    line-height: 50px;
+    font-size: 30px;
+    color: #fb0505 !important;
+}
+
+@keyframes blink{
+    0%{opacity: 0;}
+    100%{opacity: 1;}
+}
+
+.hud-red-blinker {
+    animation: red_blinker 0.5s linear infinite;
+}
+
+@keyframes red_blinker {
+    50% {
+        color: red;
+    }
+}
+
+.hud-message{
+    color: white;
+    top: 30%;
+    left: 50%;
+    width: 600px;
+    margin-left: -300px;
+    position: fixed;
+    text-align: center;
+    white-space: pre;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 1);
+    font-size: 30px;
+    z-index: 12;
+    display: none;
+}
+
+.hud-scoreboard{
+    color: white;
+    position: fixed;
+    left: 20%;
+    height: 80%;
+    width: 60%;
+    top: 5%;
+    z-index: 16;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 1);
+}
+
+.hud-scoreboard .hud-scoreboard-mapname{
+    background: rgba(0, 0, 0, 0.4);
+    font-size: 1em;
+    padding-bottom: 2px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
+    text-align: center;
+    border-radius: 5px 5px 0px 0px;
+}
+
+.hud-scoreboard table{
+    background: rgba(0, 0, 0, 0.7);
+    width: 100%;
+    padding: 5px;
+    border-collapse: separate;
+    border-spacing: 0 2px;
+    border-radius: 0px 0px 5px 5px;
+}
+.scoreboard-hud-common-head {
+	font-size: 0.8em;
+}
+.hud-scoreboard .scoreboard-hud-ct-head, .hud-scoreboard .scoreboard-hud-tr-head{
+    font-size: 1.5em;
+}
+
+.hud-scoreboard .scoreboard-hud-ct-head tr{
+    color: #81D0FF;
+}
+
+.hud-scoreboard .scoreboard-hud-tr-head {
+    color: #FFDD66;
+}
+.hud-scoreboard .scoreboard-hud-ct-body, .hud-scoreboard .scoreboard-hud-tr-body {
+    font-size: 0.9em;
+}
+.hud-scoreboard table th, .hud-scoreboard table td{
+    font-weight: normal;
+    padding: 5px;
+    margin: 5px 0 5px 0;
+    text-align: center;
+}
+
+.hud-scoreboard table th:nth-child(2), .hud-scoreboard table td:nth-child(2) {
+    text-align: left;
+}
+
+.scoreboard-hud-ct-body td{
+    background: #5683A4;
+}
+
+.scoreboard-hud-tr-body td{
+    background: #A99A5E;
+}
+
+.hud-ads{
+    position: fixed;
+    bottom: 10px;
+    width: 100%;
+    z-index: 13;
+    text-align: center;
+    font-size: 1em;
+    margin: 0 auto;
+}
+
+.hud-ad{
+    text-align: center;
+    font-size: 1em;
+    background: rgba(0,0,0,.3);
+    padding-left: 4px;
+    padding-right: 3px;
+    padding-top: 2px;
+    padding-bottom: 1px;
+    color: orange;
+    border-radius: 4px;
+    display: inline-block;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+}
+
+/* HUD DEATH */
+.hud-deaths{
+    position: fixed;
+    right: 10px;
+    /*right: 100px;*/
+    /*width: 300px;*/
+    top: 10%;
+    z-index: 13;
+    text-align: right;
+}
+
+.hud-death{
+    margin-bottom: 5px;
+    display: inline-block;
+    /*width: 100%;*/
+    height: 30px;
+    overflow: hidden;
+    font-size: 19px;
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 1);
+    background: rgba(0,0,0, 0.4);
+    padding: 0px 10px;
+    border-radius: 10px;
+}
+
+.hud-death-victim, .hud-death-killer{
+    /*max-width: 100px;*/
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.hud-death > div{
+    float: right;
+    display: inline-block;
+}
+
+.hud-death-weapon, .hud-death-head{
+    font-family: 'csd';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 30px;
+    display: inline-block;
+    margin-top: 5px;
+}
+
+.hud-death-weapon{
+    margin-left: 5px;
+}
+
+.tr-color{
+    color: #FFDD66;
+}
+.ct-color{
+    color: #81D0FF;
+}
+.server-color{
+    color: #ff6a6a;
+}
+.hud-container{
+    display: none;
+}
+
+.hud-hidden{
+    display: none;
+}
+
+.hud-bar{
+    position: fixed;
+    width: 800px;
+    height: 25px;
+    left: 50%;
+    top: 50%;
+    margin-left: -400px;
+    margin-top: 50px;
+    z-index: 12;
+    border: 1px solid white;
+}
+
+.hud-bar-progress{
+    height: 100%;
+    background: white;
+    width: 0%;
+    /*opacity: 0.8;*/
+}
+
+/* HUD CROSSHAIR */
+.hud-crosshair{
+    visibility: hidden;
+    position: fixed;
+    width: 25px;
+    height: 25px;
+    left: 50%;
+    top: 50%;
+    margin-left: -13px;
+    margin-top: -13px;
+    z-index: 12;
+}
+
+.hud-crosshair div{
+    background: #00ff00;
+    position: absolute;
+
+}
+
+.hud-crosshair-1, .hud-crosshair-2{
+    width: 1px;
+    height:10px;
+    left: 12px;
+}
+
+.hud-crosshair-3, .hud-crosshair-4{
+    width: 10px;
+    height:1px;
+    top: 12px;
+}
+
+.hud-crosshair-1{
+    top:0;
+}
+.hud-crosshair-2{
+    top:15px;
+}
+.hud-crosshair-3{
+    left: 0;
+}
+.hud-crosshair-4{
+    left: 15px;
+}
+/* HUD CROSSHAIR end */
+
+/* HUD StatusBar */
+.hud-statusbar{
+    position: fixed;
+    width: 400px;
+    height: 25px;
+    left: 0;
+    bottom: 70px;
+    z-index: 12;
+    text-align: left;
+    font-weight: bold;
+    font-size: 17px;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 1);
+    padding: 2px 5px;
+}
+
+.hud-statusbar .tr-color{
+    color: #ec1a19;
+}
+
+.hud-zoom-overlay{
+    position: fixed;
+    z-index: 12;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    /*background: rgba(0,0,0,0.5);*/
+}
+
+.hud-zoom-overlay-circle {
+    border-radius: 100vh;
+    position: fixed;
+    top: 5vh;
+    left: 50%;
+    width: 90vh;
+    height: 90vh;
+    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 1);
+    margin-left: -45vh;
+}
+
+.hud-zoom-overlay-vert{
+    position: fixed;
+    left: 50%;
+    top: 0;
+    width: 1px;
+    height: 100%;
+    background: black;
+}
+
+.hud-zoom-overlay-horiz{
+    position: fixed;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+    background: black;
+}
+
+.hud-zoom-overlay-redpoint{
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: 5px;
+    height: 5px;
+    border-radius: 5px;
+    background: red;
+    margin-top: -2px;
+    margin-left: -2px;
+}
+
+.hud-message-input{
+    color: white;
+    background: transparent;
+    position: fixed;
+    left: 0;
+    height: 50px;
+    width: 60%;
+    top: 55%;
+    z-index: 12;
+    padding: 10px;
+    text-align: left;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 1);
+}
+
+.hud-message-input input, .hud-message-input label{
+    font-size: 20px;
+    color: white;
+    background: transparent;
+    border: none;
+    font-family: Lakes, '94cda963bd2cf599314fe42bc8bc131c093a88bc8d1ac5c378c70385c8d18fcb', Play,Tahoma,Arial,sans-serif;
+}
+
+.hud-message-input input{
+    width: 80%;
+}
+
+.hud-message-input input:focus {
+    outline: none !important;
+    border-color: white;
+    box-shadow: 0 0 10px gray;
+}
+
+.hud-chat-messages{
+    color: white;
+    background: transparent;
+    position: fixed;
+    left: 0;
+    height: 50px;
+    width: 60%;
+    top: 55%;
+    z-index: 13;
+    padding: 40px 10px;
+    text-align: left;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 1);
+}
+
+.hud-chat-message-old{
+    display: none;
+    opacity: 0.7;
+}
+
+.hud-chat-old-visible .hud-chat-message-old{
+    display: block;
+}
+
+.hud-in-specmode{
+    background: rgba(0, 0, 0, 0.4);
+    font-size: 30px;
+    height: 45px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
+    text-align: center;
+    position: fixed;
+    left: 0;
+    bottom: 10%;
+    width: 100%;
+    color: white;
+    z-index: 14;
+    display: none;
+}
+
+.hud-spectator .hud-in-specmode{
+    display: block;
+}
+
+.hud-spectator .hud-health-armor,
+.hud-spectator .hud-money,
+.hud-spectator .hud-ammo,
+.hud-spectator .hud-weapons,
+.hud-spectator .hud-radar,
+.hud-spectator .hud-ammo
+{
+    display: none !important;
+}
+
+.user-button {
+    border-radius: 10px;
+}
+
+.exit-button{
+    z-index: 13;
+    display: block;
+    top: 0;
+    left: 0;
+    position: fixed;
+    font-family: '94cda963bd2cf599314fe42bc8bc131c093a88bc8d1ac5c378c70385c8d18fcb';
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    margin: 10px;
+    background: rgba(0,0,0,0.3);
+    border-radius: 10px;
+}
+
+.exit-button:hover{
+    background: rgba(0,0,0,0.6);
+}
+
+.fullscreen-button{
+    z-index: 13;
+    display: block;
+    top: 0;
+    right: 0;
+    position: fixed;
+    font-family: '94cda963bd2cf599314fe42bc8bc131c093a88bc8d1ac5c378c70385c8d18fcb';
+    color: #a3ff00;
+    text-decoration: none;
+    padding: 10px 10px 10px 15px;
+    margin: 10px;
+    background: rgba(0,0,0,0.7);
+    cursor: pointer;
+}
+
+.fullscreen-button i{
+    margin-right: 5px;
+}
+
+.fullscreen-button:hover{
+    background: rgba(0,0,0,0.9);
+}
+
+.invite-button{
+    z-index: 13;
+    display: block;
+    top: 0;
+    right: 0;
+    position: fixed;
+    font-family: '94cda963bd2cf599314fe42bc8bc131c093a88bc8d1ac5c378c70385c8d18fcb';
+    color: #ff8100;
+    text-decoration: none;
+    padding: 10px 10px 10px 15px;
+    margin: 10px;
+    background: rgba(0,0,0,0.7);
+    cursor: pointer;
+}
+
+.invite-button i{
+    margin-right: 5px;
+}
+
+.invite-button:hover{
+    background: rgba(0,0,0,0.9);
+}
+
+#invite-tooltip {
+    display: none;
+    top: 60px;
+    right: 0;
+    position: fixed;
+    color: #35cbff;
+    background: black;
+    padding-left: 6px;
+    padding-right: 2px;
+    padding-bottom: 2px;
+    z-index: 14;
+    border-radius: 10px 0px 0px 10px;
+    font-family: '94cda963bd2cf599314fe42bc8bc131c093a88bc8d1ac5c378c70385c8d18fcb';
+    font-weight: 500;
+    font-style: normal;
+}
+/*.is-fullscreen .exit-button{*/
+    /*display: none;*/
+/*}*/
+
+.reload-button{
+    z-index: 13;
+    display: none;
+    top: 0;
+    right: 0;
+    position: fixed;
+    font-family: '94cda963bd2cf599314fe42bc8bc131c093a88bc8d1ac5c378c70385c8d18fcb';
+    color: #a3ff00;
+    text-decoration: none;
+    padding: 10px 10px 10px 15px;
+    margin: 10px;
+    background: rgba(0,0,0,0.7);
+    cursor: pointer;
+}
+
+.reload-button i{
+    margin-right: 5px;
+}
+
+.reload-button:hover{
+    background: rgba(0,0,0,0.9);
+}
+#complain_button{
+    z-index: 13;
+    display: none;
+    position: fixed;
+    font-family: '94cda963bd2cf599314fe42bc8bc131c093a88bc8d1ac5c378c70385c8d18fcb';
+    color: #ffd400;
+    text-decoration: none;
+    padding: 10px 10px 10px 15px;
+    margin: 10px;
+    background: rgba(0,0,0,0.7);
+    cursor: pointer;
+}
+
+#complain_button i{
+    margin-right: 5px;
+}
+
+#complain_button:hover{
+    background: rgba(0,0,0,0.9);
+}
+#votekick_button{
+    z-index: 13;
+    display: none;
+    position: fixed;
+    font-family: '94cda963bd2cf599314fe42bc8bc131c093a88bc8d1ac5c378c70385c8d18fcb';
+    color: #ffd400;
+    text-decoration: none;
+    padding: 10px 10px 10px 15px;
+    margin: 10px;
+    background: rgba(0,0,0,0.7);
+    cursor: pointer;
+}
+
+#votekick_button i{
+    margin-right: 5px;
+}
+
+#votekick_button:hover{
+    background: rgba(0,0,0,0.9);
+}
+#amxmodmenu{
+    z-index: 13;
+    display: none;
+    position: fixed;
+    font-family: '94cda963bd2cf599314fe42bc8bc131c093a88bc8d1ac5c378c70385c8d18fcb';
+    color: #ffb2aa;
+    text-decoration: none;
+    padding: 10px 10px 10px 15px;
+    margin: 10px;
+    background: rgba(0,0,0,0.7);
+    cursor: pointer;
+}
+
+#amxmodmenu i{
+    margin-right: 5px;
+}
+
+#amxmodmenu:hover{
+    background: rgba(0,0,0,0.9);
+}
+.reconnect-button{
+    z-index: 13;
+    display: none;
+    top: 0;
+    right: 0;
+    position: fixed;
+    font-family: '94cda963bd2cf599314fe42bc8bc131c093a88bc8d1ac5c378c70385c8d18fcb';
+    color: #a3ff00;
+    text-decoration: none;
+    padding: 10px 10px 10px 15px;
+    margin: 10px;
+    background: rgba(0,0,0,0.7);
+    cursor: pointer;
+}
+
+.reconnect-button i{
+    margin-right: 5px;
+}
+
+.reconnect-button:hover{
+    background: rgba(0,0,0,0.9);
+}
+.hud-credits{
+    position: fixed;
+    bottom: 0;
+    right: 310px;
+    width: 600px;
+    height: 25px;
+    z-index: 12;
+    text-align: right;
+    color: white;
+    font-size: 13px;
+}
+
+.hud-spec-bar{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 12;
+    text-align: center;
+    height: 60px;
+    background: rgba(0,0,0,0.5);
+}
+
+.hud-spec-name{
+    margin-top: 18px;
+}
+
+.hud-spectator .hud-spec-bar{
+    display: block;
+}
+
+.hud-win-image{
+    z-index: 12;
+    position: fixed;
+    top: 50px;
+    left: 50%;
+    margin-left: -165px;
+}
+
+.hud-win-image img{
+    display: none;
+}
+
+#hud-joystick-left-zone{
+    display: none;
+    width: 33%;
+    height: 50%;
+    position: fixed;
+    z-index: 13;
+    bottom: 0;
+    left: 0;
+}
+
+.isMobile #hud-joystick-left-zone{
+    display: block;
+}
+
+.hud-server-message {
+    background: rgba(0, 0, 0, 0.4);
+    font-size: 30px;
+    height: 45px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
+    text-align: center;
+    position: fixed;
+    left: 0;
+    top: 35%;
+    width: 100%;
+    color: white;
+    z-index: 12;
+    display: none;
+}
+
+.hud-guest-banner{
+    /*background: rgba(8, 152, 230, 0.5);*/
+    background: rgb(208 15 15 / 50%);
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    z-index: 13;
+    text-align: center;
+    font-size: 1em;
+    border-radius: 5px;
+    display: inline-block;
+    margin: 0 0 0 -300px;
+    padding-top: 2px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    color: whitesmoke;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 1);
+}
+
+.hud-guest-banner > a{
+    color: whitesmoke;
+    text-decoration: none;
+}
+
+#server_full, #server_full2 {
+    margin-left: -300px;
+    text-align: center;
+    color: white;
+    background-color: rgba(0,0,0,0.7);
+    font-size: 1.3rem;
+    width: 500px;
+   /* height: 350px;*/
+    max-height: 400px;
+    position: absolute;
+    top: 100px;
+    left: 50%;
+}
+
+#server_disconnected{
+    margin-left: -300px;
+    text-align: center;
+    color: white;
+    background-color: rgba(0,0,0,0.7);
+    font-size: 1.3rem;
+    width: 500px;
+   /* height: 350px;*/
+    max-height: 400px;
+    position: absolute;
+    top: 100px;
+    left: 50%;
+}
+
+.menu_action_btn{
+    text-decoration: none;
+    display: inline-block;
+    margin: 10px;
+    background-color: #009bee;
+    padding: 5px;
+    color: white;
+    text-shadow: 1px 1px 1px #000000;
+    width: 230px;
+}
+
+.server_ranked {
+    color: #ffe000;
+}
+#scoreboard_rounds_end {
+    display: none;
+    font-weight: bold;
+    color: red;
+    font-size: 2em;
+}
+.server_private {
+    color: #70ef70;
+}
+.server_not_private {
+    color: white;
+}
+.hud-live-block {
+    position: absolute;
+    width: 150px;
+    z-index: 13;
+}
+.hud-t-live-block {
+    left: 100px;
+    text-align: left;
+}
+.hud-ct-live-block {
+    right: 100px;
+    text-align: right;
+}
+.hud-player-buff {
+    z-index: 13;
+    color: white;
+    position: fixed;
+    left: 0px;
+    bottom: 105px;
+    display: block;
+}
+.hud-baff-item {
+    padding-left: 5px;
+    vertical-align: middle;
+}
+
+.cell-code {
+    width: 20px;
+    padding: 5px;
+    font-size: 1em;
+    font-weight: bold;
+    text-align: center;
+}
+.hud-downloading {
+    font-size: 0.9em;
+}
+#feedback {
+    right: 5px;
+    position: fixed;
+    bottom: 70px;
+    text-decoration: none;
+}
+#feedback img {
+    height: 100px;
+    width: 100px;
+}
+#feedback span {
+    font-size: 0.6em;
+    color: #dedede;
+    display: block;
+}
+.hud-menu-text{
+    z-index: 14;
+    position: fixed;
+    color: white;
+    left: 10px;
+    top: 255px;
+    background: #00000082;
+    border-radius: 10px;
+    padding: 5px;
+    text-align: left;
+    font-size: 1.3em;
+}
+.hud-menu-text i {
+    display: block;
+}
+.hud-menu-mode-yellow{
+    color: #f8cb07;
+}
+.hud-menu-mode-red{
+    color: #ff7370;
+}
+.hud-menu-mode-green{
+    color: #51f151;
+}
+.hud-menu-mode-right{
+    float: right;
+}
+.hud-menu-mode-dim{
+    opacity: 0.6;
+}
+.server_owner {
+    background: rgba(0, 0, 0, 0.7);
+    padding-left: 2px;
+    padding-right: 3px;
+    padding-bottom: 2px;
+    border-radius: 0px 0px 5px 5px;
+}
+.server_owner a {
+    text-decoration: none;
+    color: yellow;
+}
+.money_minus {
+    color: rgb(247 95 95);
+    position: relative;
+    left: 17px;
+    font-weight: bold;
+    text-shadow: 0px 0px 2px black;
+}
+.money_plus {
+    color: rgb(30 220 28);
+    position: relative;
+    left: 9px;
+    font-weight: bold;
+    text-shadow: 0px 0px 2px black;
+}
+#exit-to-lobby:hover {
+    color: #e65151;
+}
+.server_name .flag-icon {
+    border-radius: 3px;
+}
+.player_rank {
+    display: inline-block;
+    color: #d6d6d6;
+}
+.hud-screen-message {
+    padding-left: 6px;
+    padding-right: 6px;
+    padding-bottom: 2px;
+    background: #000000b8;
+    position: absolute;
+    z-index: 999;
+    border-radius: 10px;
+    font-weight: bold;
+    text-align: left;
+    display: none;
+}
+#hud-screen-message-top-left {
+    top: 30%;
+    left: 3%;
+    color: #ffd400;
+}
+#hud-screen-message-top-right {
+    top: 30%;
+    right: 3%;
+    color: #ff9900;
+}
+#hud-screen-message-bottom-left {
+    bottom: 30%;
+    left: 3%;
+    color: #92f192;
+}
+#hud-screen-message-bottom-right {
+    bottom: 30%;
+    right: 3%;
+    color: #15dcdc;
+}

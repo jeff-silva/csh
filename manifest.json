@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "CSH",
+  "description": "CSH",
+  "version": "1.0",
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["ext/csh-init.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "resources": ["ext/csh-inject.js"]
+    }
+  ]
+}

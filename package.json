@@ -1,0 +1,22 @@
+{
+  "name": "csh",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "vue": "^3.2.47"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.1.0",
+    "@vueuse/core": "^9.13.0",
+    "lodash": "^4.17.21",
+    "vite": "^4.2.0",
+    "vue-drag-resize": "^2.0.3",
+    "vuetify": "^3.1.10"
+  }
+}

@@ -1,0 +1,282 @@
+var TEAM_UNASSIGNED = 0;
+var TEAM_TERRORIST = 1;
+var TEAM_CT = 2;
+var TEAM_SPECTATOR = 3;
+
+$(function(){
+    // setInterval(
+    //     function () {
+    //         if(!$(".hud-buyzone-icon").is(":visible")){
+    //             closeMenu();
+    //         }
+    //     },
+    //     1000
+    // );
+
+    var currentMenu;
+    var descElem = $(".hud-buy-menu-desc");
+    var dlElem = $("dl", descElem);
+
+    function mouseenter(item) {
+        return function () {
+            descElem.show();
+            dlElem.html("");
+            $("img", descElem).attr({
+                src: "/img/buy_menu/" + item.icon + ".png"
+            });
+            dlElem.append($("<dt>").text("Price"));
+            dlElem.append($("<dd>").text("$" + item.price));
+            $.each(item.desc, function(dummy, descItem){
+                dlElem.append($("<dt>").text(descItem[0]));
+                dlElem.append($("<dd>").text(descItem[1]));
+            });
+        }
+    }
+
+    function showMenu(menu) {
+        inMenu = true;
+        currentMenu = menu;
+
+        $(".hud-buy-menu-title").text(menu.title);
+        $(".hud-buy-menu-button, .hud-buy-menu-divider").remove();
+        var menuElem = $(".hud-buy-menu");
+        var elems = $.map(menu.items, function(item){
+            if(item == "divider"){
+                return $('<div class="hud-buy-menu-divider">');
+            }
+            var elem = $('<button class="hud-buy-menu-button">');
+            elem.text(item.num + ". " + item.title);
+            elem.data("num", item.num);
+            elem.data("cmd", item.cmd);
+            elem.addClass("hud-buy-menu-button-" + item.num);
+
+            if(item.desc){
+                elem.mouseenter(mouseenter(item));
+                elem.mouseleave(function () {
+                    descElem.hide();
+                });
+            }
+
+            return elem;
+        });
+        $.each(elems, function(dummy, elem){
+            elem.appendTo(menuElem);
+        });
+        menuElem.show();
+    }
+
+    var buyMenu = {
+        title: "$ BUY MENU",
+        items: [
+            {num: 1, title: "Handgun"},
+            {num: 2, title: "Shotgun"},
+            {num: 3, title: "SMG"},
+            {num: 4, title: "Rifle"},
+            {num: 5, title: "Machine-Gun"},
+            "divider",
+            {num: 6, title: "Primary ammo (300$)", cmd: "primammo", icon: "bullet", price: 300, desc: []},
+            {num: 7, title: "Secondary ammo (300$)", cmd: "secammo", icon: "cartridge", price: 300, desc: []},
+            "divider",
+            {num: 8, title: "Equipment"},
+            "divider",
+            {num: 0, title: "Cancel"}
+        ]
+    };
+
+    //----------CT-------------
+    var subMenuCT = {};
+    //Handgun CT
+    subMenuCT[1] = {
+        title: "$ Handgun",
+        items: [
+            {num: 1, title: "9X19MM SIDEARM (400$)", cmd: "glock", icon: "glock18", price: 400, desc: []},
+            {num: 2, title: "K&M .45 TACTICAL (500$)", cmd: "usp", icon: "usp45", price: 500, desc: []},
+            {num: 3, title: "228 COMPACT (600$)", cmd: "p228", icon: "p228", price: 600, desc: []},
+            {num: 4, title: "NIGHT HAWK .50C (650$)", cmd: "deagle", icon: "deserteagle", price: 650, desc: []},
+            {num: 5, title: "ES Five-Seven (750$)", cmd: "fiveseven", icon: "fiveseven", price: 750, desc: []},
+            "divider",
+            {num: 0, title: "Cancel"}
+        ]
+    };
+    //Shotgun CT
+    subMenuCT[2] = {
+        title: "$ Shotgun",
+        items: [
+            {num: 1, title: "LEONE 12 GAUGE SUPER (1700$)", cmd: "m3", icon: "m3", price: 1700, desc: []},
+            {num: 2, title: "LEONE YG1265 AUTO SHOTGUN (3000$)", cmd: "xm1014", icon: "xm1014", price: 3000, desc: []},
+            "divider",
+            {num: 0, title: "Cancel"}
+        ]
+    };
+    //SMG CT
+    subMenuCT[3] = {
+        title: "$ SMG",
+        items: [
+            {num: 1, title: "SCHMIDT MACHINE PISTOL (1250$)", cmd: "tmp", icon: "tmp", price: 1250, desc: []},
+            {num: 2, title: "K&M SUB-MACHINE GUN (1500$)", cmd: "mp5", icon: "mp5", price: 1500, desc: []},
+            {num: 3, title: "K&M UMP45 (1700$)", cmd: "ump45", icon: "ump45", price: 1700, desc: []},
+            {num: 4, title: "ES C90 (2350$)", cmd: "p90", icon: "p90", price: 2350, desc: []},
+            "divider",
+            {num: 0, title: "Cancel"}
+        ]
+    };
+    //Rifle CT
+    subMenuCT[4] = {
+        title: "$ Rifle",
+        items: [
+            {num: 1, title: "CLARION 5.56 (2250$)", cmd: "famas", icon: "famas", price: 2250, desc: []},
+            {num: 2, title: "SCHMIDT SCOUT (2750$)", cmd: "scout", icon: "scout", price: 2750, desc: []},
+            {num: 3, title: "MAVERICK M4A1 CARBINE (3100$)", cmd: "m4a1", icon: "m4a1", price: 3100, desc: []},
+            {num: 4, title: "BULLPUP (3500$)", cmd: "aug", icon: "aug", price: 3500, desc: []},
+            {num: 5, title: "KRIEG 550 COMMANDO (4200$)", cmd: "sg550", icon: "sg550", price: 4200, desc: []},
+            {num: 6, title: "MAGNUM SNIPER RIFLE (4750$)", cmd: "awp", icon: "awp", price: 4750, desc: []},
+            "divider",
+            {num: 0, title: "Cancel"}
+        ]
+    };
+    //Machine-Gun CT
+    subMenuCT[5] = {
+        title: "$ Machine-Gun",
+        items: [
+            {num: 1, title: "M249 (5750$)", cmd: "m249", icon: "m249", price: 5750, desc: []},
+            "divider",
+            {num: 0, title: "Cancel"}
+        ]
+    };
+    subMenuCT[8] = {
+        title: "$ Equipment",
+        items: [
+            {num: 1, title: "KEVLAR (650$)", cmd: "vest", icon: "kevlar", price: 650, desc: []},
+            {num: 2, title: "KEVLAR+HELMET (1000$)", cmd: "vesthelm", icon: "kevlar_helmet", price: 1000, desc: []},
+            {num: 3, title: "FLASHBANG (200$)", cmd: "flash", icon: "flashbang", price: 200, desc: []},
+            {num: 4, title: "HE GRENADE (300$)", cmd: "hegren", icon: "hegrenade", price: 300, desc: []},
+            {num: 5, title: "SMOKE GRENADE (300$)", cmd: "sgren", icon: "smokegrenade", price: 300, desc: []},
+            {num: 6, title: "DEFUSAL KIT (200$)", cmd: "defuser", icon: "defuser", price: 200, desc: []},
+            "divider",
+            {num: 0, title: "Cancel"}
+        ]
+    };
+
+    //----------TR-------------
+    var subMenuTR = {};
+    //Handgun TR
+    subMenuTR[1] = {
+        title: "$ Handgun",
+        items: [
+            {num: 1, title: "9X19MM SIDEARM (400$)", cmd: "glock", icon: "glock18", price: 400, desc: []},
+            {num: 2, title: "K&M .45 TACTICAL (500$)", cmd: "usp", icon: "usp45", price: 500, desc: []},
+            {num: 3, title: "228 COMPACT (600$)", cmd: "p228", icon: "p228", price: 600, desc: []},
+            {num: 4, title: "NIGHT HAWK .50C (650$)", cmd: "deagle", icon: "deserteagle", price: 650, desc: []},
+            {num: 5, title: ".40 DUAL ELITES (800$)", cmd: "elites", icon: "elites", price: 800, desc: []},
+            "divider",
+            {num: 0, title: "Cancel"}
+        ]
+    };
+    //Shotgun TR
+    subMenuTR[2] = {
+        title: "$ Shotgun",
+        items: [
+            {num: 1, title: "LEONE 12 GAUGE SUPER (1700$)", cmd: "m3", icon: "m3", price: 1700, desc: []},
+            {num: 2, title: "LEONE YG1265 AUTO SHOTGUN (3000$)", cmd: "xm1014", icon: "xm1014", price: 3000, desc: []},
+            "divider",
+            {num: 0, title: "Cancel"}
+        ]
+    };
+    //SMG TR
+    subMenuTR[3] = {
+        title: "$ SMG",
+        items: [
+            {num: 1, title: "INGRAM MAC-10 (1400$)", cmd: "mac10", icon: "mac10", price: 1400, desc: []},
+            {num: 2, title: "K&M SUB-MACHINE GUN  (1500$)", cmd: "mp5", icon: "mp5", price: 1500, desc: []},
+            {num: 3, title: "K&M UMP45 (1700$)", cmd: "ump45", icon: "ump45", price: 1700, desc: []},
+            {num: 4, title: "ES C90 (2300$)", cmd: "p90", icon: "p90", price: 2350, desc: []},
+            "divider",
+            {num: 0, title: "Cancel"}
+        ]
+    };
+    //Rifle TR
+    subMenuTR[4] = {
+        title: "$ Rifle",
+        items: [
+            {num: 1, title: "IDF DEFENDER (2000$)", cmd: "galil", icon: "galil", price: 2000, desc: []},
+            {num: 2, title: "AK-47 (2500$)", cmd: "ak47", icon: "ak47", price: 2500, desc: []},
+            {num: 3, title: "SCHMIDT SCOUT (2750$)", cmd: "scout", icon: "scout", price: 2750, desc: []},
+            {num: 4, title: "KRIEG 552 (3500$)", cmd: "sg552", icon: "sg552", price: 3500, desc: []},
+            {num: 5, title: "MAGNUM SNIPER RIFLE (4750$)", cmd: "awp", icon: "awp", price: 4750, desc: []},
+            {num: 6, title: "D3/AU-1 (5000$)", cmd: "g3sg1", icon: "sg550", price: 5000, desc: []},
+            "divider",
+            {num: 0, title: "Cancel"}
+        ]
+    };
+    //Machine-Gun TR
+    subMenuTR[5] = {
+        title: "$ Machine-Gun",
+        items: [
+            {num: 1, title: "M249 (5750$)", cmd: "m249", icon: "m249", price: 5750, desc: []},
+            "divider",
+            {num: 0, title: "Cancel"}
+        ]
+    };
+    subMenuTR[8] = {
+        title: "$ Equipment",
+        items: [
+            {num: 1, title: "KEVLAR (650$)", cmd: "vest", icon: "kevlar", price: 650, desc: []},
+            {num: 2, title: "KEVLAR+HELMET (1000$)", cmd: "vesthelm", icon: "kevlar_helmet", price: 1000, desc: []},
+            {num: 3, title: "FLASHBANG (200$)", cmd: "flash", icon: "flashbang", price: 200, desc: []},
+            {num: 4, title: "HE GRENADE (300$)", cmd: "hegren", icon: "hegrenade", price: 300, desc: []},
+            {num: 5, title: "SMOKE GRENADE (300$)", cmd: "sgren", icon: "smokegrenade", price: 300, desc: []},
+            //{num: 6, title: "NIGHTVISION (1250$)", cmd: "nvgs", icon: "nightvision", price: 1250, desc: []},
+            "divider",
+            {num: 0, title: "Cancel"}
+        ]
+    };
+
+    var subMenu = {};
+    subMenu[TEAM_TERRORIST] = subMenuTR;
+    subMenu[TEAM_CT] = subMenuCT;
+
+    $(document).keydown(function (e) {
+        var c = String.fromCharCode(e.which);
+        var kC = e.keyCode;
+        if ( (kC === CS_ENV.commands['buy']) && $(".hud-buyzone-icon").is(":visible")) {//b
+            showMenu(buyMenu);
+        }
+        if ( (kC === CS_ENV.commands['buyequip']) && $(".hud-buyzone-icon").is(":visible")) {//b
+            showMenu(buyMenu);
+            c = '8';
+        }
+        if((c * 1)+'' === c){
+            var button = $(".hud-buy-menu-button-" + c);
+            if(button.is(":visible") && button.length === 1){
+                clickMenuItem(button);
+            }
+
+        }
+    });
+
+    function closeMenu() {
+        currentMenu = null;
+        inMenu = false;
+        $(".hud-buy-menu, .hud-buy-menu-desc").hide();
+    }
+
+    function clickMenuItem(button){
+        var num = button.data("num");
+        var cmd = button.data("cmd");
+
+        closeMenu();
+        if(cmd){
+            Module.pfnClientCmd(cmd);
+        }
+        if(num > 0 && !cmd){
+            try{
+                showMenu(subMenu[getMyTeamIndex()][num]);
+            }catch (e) {}
+        }
+    }
+
+    $(document).on("click", ".hud-buy-menu-button", function (e) {
+        var button = $(this);
+        clickMenuItem(button);
+    });
+});

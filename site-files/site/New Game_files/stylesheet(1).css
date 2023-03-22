@@ -1,0 +1,48 @@
+@font-face {
+    font-family: 'Counter-Strike Logo';
+    src: url('CSlogo.eot');
+    src: url('CSlogo.eot?#iefix') format('embedded-opentype'),
+        url('CSlogo.woff2') format('woff2'),
+        url('CSlogo.woff') format('woff'),
+        url('CSlogo.ttf') format('truetype'),
+        url('CSlogo.svg#CSlogo') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'csd';
+    src: url('csd.eot');
+    src: url('csd.eot?#iefix') format('embedded-opentype'),
+        url('csd.woff2') format('woff2'),
+        url('csd.woff') format('woff'),
+        url('csd.ttf') format('truetype'),
+        url('csd.svg#csd') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Counter-Strike';
+    src: url('Counter-Strike.eot');
+    src: url('Counter-Strike.eot?#iefix') format('embedded-opentype'),
+        url('Counter-Strike.woff2') format('woff2'),
+        url('Counter-Strike.woff') format('woff'),
+        url('Counter-Strike.ttf') format('truetype'),
+        url('Counter-Strike.svg#Counter-Strike') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'cs';
+    src: url('cs.eot');
+    src: url('cs.eot?#iefix') format('embedded-opentype'),
+        url('cs.woff2') format('woff2'),
+        url('cs.woff') format('woff'),
+        url('cs.ttf') format('truetype'),
+        url('cs.svg#cs') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+

@@ -1,0 +1,69 @@
+.motd {
+    width:100%;
+    min-height:100%;
+    background-color: rgba(0,0,0,0.5);
+    overflow:hidden;
+    position:fixed;
+    top:0px;
+    z-index: 13;
+    left: 0px;
+}
+
+.motd-container {
+    z-index: 16;
+    background-color: rgb(6, 71, 103);
+    position: fixed;
+    min-height: 300px;
+    width: 40%;
+    left: 30%;
+    top: 100px;
+    color: white;
+    font-family: roboto,sans-serif;
+}
+
+.motd-header {
+    text-align: center;
+    font-size: 2em;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-right: 10px;
+    height: 50px;
+}
+
+.motd-header span {
+    position: absolute;
+    padding-top: 7px;
+}
+
+.motd-body {
+    padding: 10px;
+    display: block;
+    text-align: center;
+}
+
+.motd-bottom {
+    display: block;
+    width: 100%;
+}
+
+.motd-ok {
+    position: relative;
+    float: right;
+    margin-top: 10px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    bottom: 0px;
+    right: 0px;
+    color: #a3ff00;
+    background: rgba(0,0,0,.7);
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+.motd-ok:hover{
+    background: rgba(0,0,0,0.5);
+}

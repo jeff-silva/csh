@@ -1,0 +1,24 @@
+@font-face {
+    font-family: '94cda963bd2cf599314fe42bc8bc131c093a88bc8d1ac5c378c70385c8d18fcb';
+    src: url('94cda963bd2cf599314fe42bc8bc131c093a88bc8d1ac5c378c70385c8d18fc.eot');
+    src: url('94cda963bd2cf599314fe42bc8bc131c093a88bc8d1ac5c378c70385c8d18fc.eot?#iefix') format('embedded-opentype'),
+        url('94cda963bd2cf599314fe42bc8bc131c093a88bc8d1ac5c378c70385c8d18fc.woff2') format('woff2'),
+        url('94cda963bd2cf599314fe42bc8bc131c093a88bc8d1ac5c378c70385c8d18fc.woff') format('woff'),
+        url('94cda963bd2cf599314fe42bc8bc131c093a88bc8d1ac5c378c70385c8d18fc.ttf') format('truetype'),
+        url('94cda963bd2cf599314fe42bc8bc131c093a88bc8d1ac5c378c70385c8d18fc.svg#94cda963bd2cf599314fe42bc8bc131c093a88bc8d1ac5c378c70385c8d18fc') format('svg');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: '18946ae4fb92ed17e61b1d1079f05eac5da035011ef9d5efeb5acbd1cea6d079';
+    src: url('18946ae4fb92ed17e61b1d1079f05eac5da035011ef9d5efeb5acbd1cea6d07.eot');
+    src: url('18946ae4fb92ed17e61b1d1079f05eac5da035011ef9d5efeb5acbd1cea6d07.eot?#iefix') format('embedded-opentype'),
+        url('18946ae4fb92ed17e61b1d1079f05eac5da035011ef9d5efeb5acbd1cea6d07.woff2') format('woff2'),
+        url('18946ae4fb92ed17e61b1d1079f05eac5da035011ef9d5efeb5acbd1cea6d07.woff') format('woff'),
+        url('18946ae4fb92ed17e61b1d1079f05eac5da035011ef9d5efeb5acbd1cea6d07.ttf') format('truetype'),
+        url('18946ae4fb92ed17e61b1d1079f05eac5da035011ef9d5efeb5acbd1cea6d07.svg#18946ae4fb92ed17e61b1d1079f05eac5da035011ef9d5efeb5acbd1cea6d07') format('svg');
+    font-weight: bold;
+    font-style: normal;
+}
+

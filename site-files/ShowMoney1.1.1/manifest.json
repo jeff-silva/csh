@@ -1,0 +1,24 @@
+{
+    "name": "ShowMoney",
+    "description": "Show money in team chat on the play-cs.com",
+    "version": "1.1.1",
+    "author": "st4r",
+    "manifest_version": 3,
+    "icons": {
+        "16": "/images/img16.png",
+        "32": "/images/img32.png",
+        "48": "/images/img48.png",
+        "128": "/images/img128.png"
+    },
+    "content_scripts": [
+        {
+            "js": ["script.js"],
+            "matches": ["https://game.play-cs.com/*"]
+        }
+    ],
+    "permissions": ["scripting"],
+    "host_permissions": ["https://game.play-cs.com/*"],
+    "web_accessible_resources": [
+        { "resources": ["show-money.js"], "matches": ["<all_urls>"] }
+    ]
+}

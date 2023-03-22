@@ -38,6 +38,41 @@
 
         <!-- Table -->
         <div v-if="window1.tab=='table'" style="flex-grow:1; overflow:auto;">
+          <v-table
+            density="compact"
+            style="font-size:12px;"
+            class="border-t"
+            v-if="player.enemies.length>0"
+          >
+            <colgroup>
+              <col>
+              <col width="10px" class="bg-green-lighten-3">
+              <col width="10px" class="bg-red-lighten-3">
+            </colgroup>
+            <thead>
+              <tr>
+                <th>Your enemies</th>
+                <th>IK</th>
+                <th>KM</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                v-for="p in player.enemies"
+              >
+                <td
+                  :class="{
+                    'bg-amber-lighten-4': p.teamnumber==1,
+                    'bg-blue-grey-lighten-2': p.teamnumber==2,
+                  }"
+                >
+                  {{ p.name }}
+                </td>
+                <td>{{ p.iKilled }}</td>
+                <td>{{ p.killedMe }}</td>
+              </tr>
+            </tbody>
+          </v-table>
           <v-table density="compact" style="font-size:12px;" class="border-t">
             <colgroup>
               <col>
@@ -131,8 +166,10 @@
   <!-- debug -->
   <v-card v-if="debug" style="position:fixed; z-index:999!important; bottom:15px; left:15px; max-height:400px; overflow:auto; text-align:left;">
     <v-btn block @click="test.simulateKills()">test.simulateKills()</v-btn>
+    <v-btn block @click="test.simulateMyKills()">test.simulateMyKills()</v-btn>
+    <v-btn block @click="test.simulateMyDeaths()">test.simulateMyDeaths()</v-btn>
     <v-btn block @click="pfnClientCmd('say hello world')">pfnClientCmd()</v-btn>
-    <pre>lastKill: {{ lastKill }}</pre>
+    <pre>player.enemies: {{ player.enemies }}</pre>
   </v-card>
 </template>
 
@@ -153,10 +190,11 @@
   const debug = false;
 
   const player = ref({
-    iKilled: {},
-    killedMe: {},
     me: false,
     lastKill: false,
+    iKilled: {},
+    killedMe: {},
+    enemies: [],
     list: [],
     getPlayer(id) {
       id = id=='me' ? this.me.uid : id;
@@ -180,7 +218,21 @@
           if (a.frags < b.frags) { return 1; }
           return 0;
         });
+
       this.me = this.list.filter(player => player.me==true).at(0) || false;
+
+      this.enemies = _.slice(this.list
+        .filter((p, i) => {
+          return (
+            p.teamnumber != this.me.teamnumber
+            && p.killedMe > 0
+          );
+        })
+        .sort((a, b) => {
+          if (a.killedMe > b.killedMe) { return -1; }
+          if (a.killedMe < b.killedMe) { return 1; }
+          return 0;
+        }), 0, 3);
     },
     countKills(killer, victim, headshot, weapon) {
       killer = this.getPlayer(killer);
@@ -270,23 +322,31 @@
       const key = Object.keys(g_PlayerExtraInfo).at(0);
       delete g_PlayerExtraInfo[key];
     },
-    simulateKills() {
-      const killer = _.sample(player.value.list);
-      const victim = _.sample(player.value.list.filter(p => p.uid != killer.uid));
-      const weapon = _.sample(Object.keys(weaponToLetter));
-      const headshot = Math.random() >= .5;
-      g_PlayerExtraInfo[ killer.uid ]['frags'] = parseInt(killer.frags) + 1;
-      g_PlayerExtraInfo[ victim.uid ]['deaths'] = parseInt(victim.deaths) + 1;
-      player.value.countKills(killer.id, victim.id, headshot, weapon);
+    simulateKills(options={}) {
+      options = _.merge({
+        killer: null,
+        victim: null,
+        weapon: null,
+        headshot: null,
+        times: 1,
+      }, options);
+
+      for(let i=0; i<options.times; i++) {
+        const killer = options.killer ? player.value.getPlayer(options.killer) : _.sample(player.value.list);
+        const victim = options.victim ? player.value.getPlayer(options.victim) : _.sample(player.value.list.filter(p => p.uid != killer.uid));
+        const weapon = options.weapon ||  _.sample(Object.keys(weaponToLetter));
+        const headshot = options.headshot || Math.random() >= .5;
+
+        g_PlayerExtraInfo[ killer.uid ]['frags'] = parseInt(killer.frags) + 1;
+        g_PlayerExtraInfo[ victim.uid ]['deaths'] = parseInt(victim.deaths) + 1;
+        player.value.countKills(killer.id, victim.id, headshot, weapon);
+      }
     },
-    simulateMyKills() {
-      const killer = player.value.getPlayer('me');
-      const victim = player.value.getPlayer('618c1d9aa7da97812c348ea0a8a575');
-      const weapon = _.sample(Object.keys(weaponToLetter));
-      const headshot = Math.random() >= .5;
-      g_PlayerExtraInfo[ killer.uid ]['frags'] = parseInt(killer.frags) + 1;
-      g_PlayerExtraInfo[ victim.uid ]['deaths'] = parseInt(victim.deaths) + 1;
-      player.value.countKills(killer.id, victim.id, headshot, weapon);
+    simulateMyKills(options) {
+      return this.simulateKills({ ...options, killer: 'me' });
+    },
+    simulateMyDeaths(options) {
+      return this.simulateKills({ ...options, victim: 'me' });
     },
   });
 

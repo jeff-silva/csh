@@ -376,6 +376,26 @@
     return Module.pfnClientCmd(cmd);
   };
 
+  const ModuleReplace = {
+    _MsgFunc_DeathMsgJS: function(killer, victim, headshot, truncatedWeaponNamePtr) {
+      console.clear();
+      console.error('_MsgFunc_DeathMsgJS', { killer, victim, headshot, truncatedWeaponNamePtr });
+      player.value.countKills(killer, victim, headshot, Pointer_stringify(truncatedWeaponNamePtr));
+    },
+    _MsgFunc_HealthJS: function() {
+      ['keyup', 'keydown'].forEach(evtName => {
+        inputDispatch('keydown', ' ');
+        inputDispatch('keyup', ' ');
+      });
+    },
+    print: function(text) {
+      searchCB(text, "OnServerRoundsEnd", function() {
+        player.value.iKilled = {};
+        player.value.killedMe = {};
+      });
+    },
+  };
+
   let moduleFound = false;
   const interval = useIntervalFn(() => {
     player.value.loadFromPlayersList();
@@ -392,66 +412,17 @@
     if (!moduleFound && typeof Module!='undefined') {
       moduleFound = true;
 
-      Module._MsgFunc_DeathMsgJSOld = Module._MsgFunc_DeathMsgJS;
-      Module._MsgFunc_DeathMsgJS = function(killer, victim, headshot, truncatedWeaponNamePtr) {
-        player.value.countKills(killer, victim, headshot, Pointer_stringify(truncatedWeaponNamePtr));
-        Module._MsgFunc_DeathMsgJSOld(killer, victim, headshot, truncatedWeaponNamePtr);
-      };
-
-      // Module.printOld = Module.print;
-      // Module.print = function(text) {
-      //   console.error(text);
-      //   Module.printOld(text);
-      // };
-
-      
-      // Module._MsgFunc_DamageJSOld = Module._MsgFunc_DamageJS;
-      // Module._MsgFunc_DamageJS = function(a, b) {
-      //   console.clear();
-      //   console.log('_MsgFunc_DamageJS', a, b);
-
-      //   const canvas = document.getElementById('canvas');
-      //   ['keyup', 'keydown'].forEach(evtName => {
-      //     const evt = new KeyboardEvent('keydown', {
-      //       key: " ",
-      //       keyCode: 32,
-      //       code: "Space",
-      //       which: 32,
-      //       shiftKey: false,
-      //       ctrlKey: false,
-      //       metaKey: false,
-      //     });
-          
-      //     console.log(evt);
-      //     window.dispatchEvent(evt);
-      //     document.dispatchEvent(evt);
-      
-      //     if (canvas) canvas.dispatchEvent(evt);
-      //   });
-
-      //   Module._MsgFunc_DamageJSOld(a, b);
-      // };
-
-
-      // Ao tomar dano...
-      Module._MsgFunc_HealthJSOld = Module._MsgFunc_HealthJS;
-      Module._MsgFunc_HealthJS = function(a, b) {
-        console.clear();
-        console.log('_MsgFunc_HealthJS', arguments);
-
-        ['keyup', 'keydown'].forEach(evtName => {
-          inputDispatch(' ');
-        });
-
-        // pfnClientCmd('say ouch!!');
-        Module._MsgFunc_HealthJSOld(a, b);
-      };
-
-
-      
-      // moduleReplace('print', (text) => {
-      //   // console.error(text);
-      // });
+      for(let attr in Module) {
+        if (typeof Module[attr]=='function') {
+          const oldMethod = Module[attr];
+          Module[attr] = function() {
+            if (typeof ModuleReplace[attr]=='function') {
+              ModuleReplace[attr].apply(Module, arguments);
+            }
+            oldMethod.apply(Module, arguments);
+          };
+        }
+      }
       
       // _MsgFunc_DeathMsgJS(killer, victim, headshot, truncatedWeaponNamePtr) {},
       // _MsgFunc_RadarJS() {},

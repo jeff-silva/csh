@@ -292,7 +292,7 @@
         if (this.win) {
           this.win.focus();
         } else {
-          this.win = window.open("", "", `width=${this.bind.w},height=${this.bind.h},top=${this.bind.y},left=${this.bind.x},scrollbars=1,resizable=1`);
+          this.win = window.open("", "", `popup=1,width=${this.bind.w},height=${this.bind.h},top=${this.bind.y},left=${this.bind.x},scrollbars=1,resizable=1`);
           this.win.onbeforeunload = () => { this.toogleOutside(false); };
           this.win.document.body.appendChild(Object.assign(document.createElement('div'), {
             id: 'fragment',

@@ -25,139 +25,148 @@
     @resizing="window1.onDragResize($event)"
     @dragging="window1.onDragResize($event)"
     style="z-index:9999!important;"
+    v-show="!window1.bind.outside"
   >
     <v-card class="font-default" style="height:100%; overflow:auto; text-align:left;">
-      <div class="d-flex flex-column border" style="height:100%;">
-        <div>
-          <v-tabs v-model="window1.tab">
-            <v-tab value="table"><v-icon>mdi-list-box-outline</v-icon></v-tab>
-            <v-tab value="sounds"><v-icon>mdi-volume-medium</v-icon></v-tab>
-            <!-- <v-tab value="settings"><v-icon>mdi-cog</v-icon></v-tab> -->
-          </v-tabs>
-        </div>
-
-        <!-- Table -->
-        <div v-if="window1.tab=='table'" style="flex-grow:1; overflow:auto;">
-          <v-table
-            density="compact"
-            style="font-size:12px;"
-            class="border-t"
-            v-if="player.enemies.length>0"
-          >
-            <colgroup>
-              <col>
-              <col width="10px" class="bg-green-lighten-3">
-              <col width="10px" class="bg-red-lighten-3">
-            </colgroup>
-            <thead>
-              <tr>
-                <th>Your enemies</th>
-                <th>IK</th>
-                <th>KM</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                v-for="p in player.enemies"
-              >
-                <td
-                  :class="{
-                    'bg-amber-lighten-4': p.teamnumber==1,
-                    'bg-blue-grey-lighten-2': p.teamnumber==2,
-                  }"
+      <div ref="window1Ref">
+        <div class="d-flex flex-column border" style="height:100%;">
+          <div class="d-flex">
+            <v-tabs v-model="window1.tab" class="flex-grow-1">
+              <v-tab value="table"><v-icon>mdi-list-box-outline</v-icon></v-tab>
+              <v-tab value="sounds"><v-icon>mdi-volume-medium</v-icon></v-tab>
+              <!-- <v-tab value="settings"><v-icon>mdi-cog</v-icon></v-tab> -->
+            </v-tabs>
+            <v-btn
+              :icon="window1.bind.outside ? 'mdi-window-maximize' : 'mdi-window-restore'"
+              variant="text"
+              rounded="0"
+              @click="window1.toogleOutside()"
+            />
+          </div>
+  
+          <!-- Table -->
+          <div v-if="window1.tab=='table'" style="flex-grow:1; overflow:auto;">
+            <v-table
+              density="compact"
+              style="font-size:12px;"
+              class="border-t"
+              v-if="player.enemies.length>0"
+            >
+              <colgroup>
+                <col>
+                <col width="10px" class="bg-green-lighten-3">
+                <col width="10px" class="bg-red-lighten-3">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th>Your enemies</th>
+                  <th>IK</th>
+                  <th>KM</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="p in player.enemies"
                 >
-                  {{ p.name }}
-                </td>
-                <td>{{ p.iKilled }}</td>
-                <td>{{ p.killedMe }}</td>
-              </tr>
-            </tbody>
-          </v-table>
-          <v-table density="compact" style="font-size:12px;" class="border-t">
-            <colgroup>
-              <col>
-              <col width="10px" class="bg-green-lighten-3">
-              <col width="10px" class="bg-red-lighten-3">
-              <col width="10px" class="bg-green-lighten-3">
-              <col width="10px" class="bg-red-lighten-3">
-            </colgroup>
-            <thead>
-              <tr class="bg-white">
-                <th>Top killers</th>
-                <th title="Kills">K</th>
-                <th title="Deaths">D</th>
-                <th title="I killed">IK</th>
-                <th title="Killed me">KM</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                v-for="(p, i) in player.list"
-                :key="p.uid"
-                :class="{
-                  'bg-indigo-lighten-4':p.uid==player.me.uid,
-                }"
-              >
-                <td
-                  :class="{
-                    'bg-amber-lighten-4': p.teamnumber==1,
-                    'bg-blue-grey-lighten-2': p.teamnumber==2,
-                  }"
-                >
-                  {{ i+1 }}º - {{ p.name }}
-                </td>
-                <td>{{ p.frags }}</td>
-                <td>{{ p.deaths }}</td>
-                <td>{{ p.iKilled }}</td>
-                <td>{{ p.killedMe }}</td>
-              </tr>
-            </tbody>
-          </v-table>
-        </div>
-
-        <!-- Sounds -->
-        <div v-if="window1.tab=='sounds'" style="flex-grow:1; overflow:auto;">
-          <!-- https://www.myinstants.com/media/sounds/tome-rodrigo-faro_xDXKGwq.mp3 -->
-          <v-table class="border-t">
-            <colgroup>
-              <col width="100px">
-              <col width="*">
-              <col width="100px">
-            </colgroup>
-            <tbody>
-              <tr v-for="(_url, _numpad) in sound.sounds" :key="_numpad">
-                <td>{{ _numpad }}</td>
-                <td>
-                  <v-text-field
-                    v-model="sound.sounds[_numpad]"
-                    @input="sound.loadForced()"
-                    v-bind="{
-                      hideDetails: true,
-                      density: 'compact',
+                  <td
+                    :class="{
+                      'bg-amber-lighten-4': p.teamnumber==1,
+                      'bg-blue-grey-lighten-2': p.teamnumber==2,
                     }"
-                  />
-                </td>
-                <td class="pa-0">
-                  <v-btn
-                    block
-                    rounded="0"
-                    icon="mdi-play"
-                    size="x-small"
-                    @click="sound.play(_numpad)"
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </v-table>
-        </div>
-
-        <!-- Sounds -->
-        <div v-if="window1.tab=='settings'" style="flex-grow:1; overflow:auto;">
-          Settings
-        </div>
-
-        <div class="d-flex" v-if="debug">
-          <v-btn block @click="pfnClientCmd(`UpdR 1 0 0`)">UpdR</v-btn>
+                  >
+                    {{ p.name }}
+                  </td>
+                  <td>{{ p.iKilled }}</td>
+                  <td>{{ p.killedMe }}</td>
+                </tr>
+              </tbody>
+            </v-table>
+            <v-table density="compact" style="font-size:12px;" class="border-t">
+              <colgroup>
+                <col>
+                <col width="10px" class="bg-green-lighten-3">
+                <col width="10px" class="bg-red-lighten-3">
+                <col width="10px" class="bg-green-lighten-3">
+                <col width="10px" class="bg-red-lighten-3">
+              </colgroup>
+              <thead>
+                <tr class="bg-white">
+                  <th>Top killers</th>
+                  <th title="Kills">K</th>
+                  <th title="Deaths">D</th>
+                  <th title="I killed">IK</th>
+                  <th title="Killed me">KM</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="(p, i) in player.list"
+                  :key="p.uid"
+                  :class="{
+                    'bg-indigo-lighten-4':p.uid==player.me.uid,
+                  }"
+                >
+                  <td
+                    :class="{
+                      'bg-amber-lighten-4': p.teamnumber==1,
+                      'bg-blue-grey-lighten-2': p.teamnumber==2,
+                    }"
+                  >
+                    {{ i+1 }}º - {{ p.name }}
+                  </td>
+                  <td>{{ p.frags }}</td>
+                  <td>{{ p.deaths }}</td>
+                  <td>{{ p.iKilled }}</td>
+                  <td>{{ p.killedMe }}</td>
+                </tr>
+              </tbody>
+            </v-table>
+          </div>
+  
+          <!-- Sounds -->
+          <div v-if="window1.tab=='sounds'" style="flex-grow:1; overflow:auto;">
+            <!-- https://www.myinstants.com/media/sounds/tome-rodrigo-faro_xDXKGwq.mp3 -->
+            <v-table class="border-t">
+              <colgroup>
+                <col width="100px">
+                <col width="*">
+                <col width="100px">
+              </colgroup>
+              <tbody>
+                <tr v-for="(_url, _numpad) in sound.sounds" :key="_numpad">
+                  <td>{{ _numpad }}</td>
+                  <td>
+                    <v-text-field
+                      v-model="sound.sounds[_numpad]"
+                      @input="sound.loadForced()"
+                      v-bind="{
+                        hideDetails: true,
+                        density: 'compact',
+                      }"
+                    />
+                  </td>
+                  <td class="pa-0">
+                    <v-btn
+                      block
+                      rounded="0"
+                      icon="mdi-play"
+                      size="x-small"
+                      @click="sound.play(_numpad)"
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </v-table>
+          </div>
+  
+          <!-- Sounds -->
+          <div v-if="window1.tab=='settings'" style="flex-grow:1; overflow:auto;">
+            Settings
+          </div>
+  
+          <div class="d-flex" v-if="debug">
+            <v-btn block @click="pfnClientCmd(`UpdR 1 0 0`)">UpdR</v-btn>
+          </div>
         </div>
       </div>
     </v-card>
@@ -174,7 +183,7 @@
 </template>
 
 <script setup>
-  import { ref, onMounted } from 'vue';
+  import { ref, onMounted, onUnmounted } from 'vue';
   import { useIntervalFn, useEventListener, useStorage } from '@vueuse/core';
   import _ from 'lodash';
 
@@ -257,10 +266,12 @@
     },
   });
 
+  const window1Ref = ref(null);
   const window1 = ref({
     tab: 'table',
     bind: useStorage('csh-window1-bind', {
       isActive: true,
+      outside: false,
       w: 300,
       h: 500,
       y: 15,
@@ -272,7 +283,145 @@
       this.bind.y = pos.top;
       this.bind.x = pos.left;
     },
+    win: false,
+    toogleOutside(outside=null) {
+      this.bind.outside = outside===null ? !this.bind.outside : outside;
+
+      // Move content from in to outside
+      if (this.bind.outside) {
+        if (this.win) {
+          this.win.focus();
+        } else {
+          this.win = window.open("", "", `width=${this.bind.w},height=${this.bind.h},top=${this.bind.y},left=${this.bind.x},scrollbars=1,resizable=1`);
+          this.win.onbeforeunload = () => { this.toogleOutside(false); };
+          this.win.document.body.appendChild(Object.assign(document.createElement('div'), {
+            id: 'fragment',
+          }));
+          
+          // console.log(window1Ref.value.firstChild);
+
+          let fragment = new DocumentFragment();
+          fragment.appendChild(window1Ref.value.firstChild);
+          this.win.document.querySelector('#fragment').appendChild(fragment);
+
+          document.querySelectorAll('style').forEach(elem => {
+            this.win.document.head.appendChild(Object.assign(document.createElement('style'), {
+              innerHTML: elem.innerHTML,
+            }));
+          });
+          
+          document.querySelectorAll('link[href]').forEach(elem => {
+            this.win.document.head.appendChild(Object.assign(document.createElement('link'), {
+              rel: elem.rel,
+              href: elem.href,
+            }));
+          });
+        }
+      }
+
+      // Move content from out to inside
+      else {
+        if (this.win) {
+          const frag = this.win.document.querySelector('#fragment');
+          if (frag && frag.firstChild) {
+            let fragment = new DocumentFragment();
+            fragment.appendChild(frag.firstChild);
+            window1Ref.value.appendChild(fragment);
+          }
+          this.win.close();
+          this.win = false;
+        }
+      }
+    },
   });
+
+  onMounted(() => {
+    if (window1.value.bind.outside) {
+      window1.value.toogleOutside(true);
+    }
+  });
+
+  onUnmounted(() => {
+    if (window1.value.win) {
+      window1.value.win.close();
+    }
+  });
+
+  useEventListener(window, 'beforeunload', (ev) => {
+    window1.value.win.close();
+  });
+
+  const input = {
+    keyboard: {
+      keyboardEvents: {
+        "Space": {"keyCode": 32, "which": 32, "key": " "},
+        "Numpad0": {"keyCode": 96, "which": 96, "key": "0"},
+        "Numpad1": {"keyCode": 97, "which": 97, "key": "1"},
+        "Numpad2": {"keyCode": 98, "which": 98, "key": "2"},
+        "Numpad3": {"keyCode": 99, "which": 99, "key": "3"},
+        "Numpad4": {"keyCode": 100, "which": 100, "key": "4"},
+        "Numpad5": {"keyCode": 101, "which": 101, "key": "5"},
+        "Numpad6": {"keyCode": 102, "which": 102, "key": "6"},
+        "Numpad7": {"keyCode": 103, "which": 103, "key": "7"},
+        "Numpad8": {"keyCode": 104, "which": 104, "key": "8"},
+        "Numpad9": {"keyCode": 105, "which": 105, "key": "9"},
+        "Digit0": {"keyCode": 48, "which": 48, "key": "0"},
+        "Digit1": {"keyCode": 49, "which": 49, "key": "1"},
+        "Digit2": {"keyCode": 50, "which": 50, "key": "2"},
+        "Digit3": {"keyCode": 51, "which": 51, "key": "3"},
+        "Digit4": {"keyCode": 52, "which": 52, "key": "4"},
+        "Digit5": {"keyCode": 53, "which": 53, "key": "5"},
+        "Digit6": {"keyCode": 54, "which": 54, "key": "6"},
+        "Digit7": {"keyCode": 55, "which": 55, "key": "7"},
+        "Digit8": {"keyCode": 56, "which": 56, "key": "8"},
+        "Digit9": {"keyCode": 57, "which": 57, "key": "9"},
+        "KeyA": {"keyCode": 65, "which": 65, "key": "a"},
+        "KeyB": {"keyCode": 66, "which": 66, "key": "b"},
+        "KeyC": {"keyCode": 67, "which": 67, "key": "c"},
+        "KeyD": {"keyCode": 68, "which": 68, "key": "d"},
+        "KeyE": {"keyCode": 69, "which": 69, "key": "e"},
+        "KeyF": {"keyCode": 70, "which": 70, "key": "f"},
+        "KeyG": {"keyCode": 71, "which": 71, "key": "g"},
+        "KeyH": {"keyCode": 72, "which": 72, "key": "h"},
+        "KeyI": {"keyCode": 73, "which": 73, "key": "i"},
+        "KeyJ": {"keyCode": 74, "which": 74, "key": "j"},
+        "KeyK": {"keyCode": 75, "which": 75, "key": "k"},
+        "KeyL": {"keyCode": 76, "which": 76, "key": "l"},
+        "KeyM": {"keyCode": 77, "which": 77, "key": "m"},
+        "KeyN": {"keyCode": 78, "which": 78, "key": "n"},
+        "KeyO": {"keyCode": 79, "which": 79, "key": "o"},
+        "KeyP": {"keyCode": 80, "which": 80, "key": "p"},
+        "KeyQ": {"keyCode": 81, "which": 81, "key": "q"},
+        "KeyR": {"keyCode": 82, "which": 82, "key": "r"},
+        "KeyS": {"keyCode": 83, "which": 83, "key": "s"},
+        "KeyT": {"keyCode": 84, "which": 84, "key": "t"},
+        "KeyU": {"keyCode": 85, "which": 85, "key": "u"},
+        "KeyV": {"keyCode": 86, "which": 86, "key": "v"},
+        "KeyW": {"keyCode": 87, "which": 87, "key": "w"},
+        "KeyX": {"keyCode": 88, "which": 88, "key": "x"},
+        "KeyY": {"keyCode": 89, "which": 89, "key": "y"},
+        "KeyZ": {"keyCode": 90, "which": 90, "key": "z"},
+      },
+      dispatch(type, key) {
+        if (!this.keyboardEvents[key]) return;
+        const evt = new KeyboardEvent(type, { key, ...(this.keyboardEvents[key] || {}) });
+        window.dispatchEvent(evt);
+        document.dispatchEvent(evt);
+        
+        const canvas = document.querySelector('#canvas');
+        if (canvas) canvas.dispatchEvent(evt);
+      },
+      press(key, miliseconds, callbackEnd=null) {
+        this.dispatch('keydown', key);
+        setTimeout(() => {
+          this.dispatch('keyup', key);
+          if (typeof callbackEnd=='function') {
+            callbackEnd();
+          }
+        }, miliseconds);
+      },
+    },
+  };
 
   const numpads = _.range(1, 9).map(n => `Numpad${n}`);
 
@@ -358,41 +507,25 @@
     if (ev.code=='KeyE') test.value.depthTest = false;
   });
 
-  const inputDispatch = (type, key) => {
-    const keys = {
-      " ": { keyCode: 32, which:32, code: 'Space' },
-    };
-
-    const evt = new KeyboardEvent(type, { key, ...(keys[key] || {}) });
-    window.dispatchEvent(evt);
-    document.dispatchEvent(evt);
-    
-    const canvas = document.querySelector('#canvas');
-    if (canvas) canvas.dispatchEvent(evt);
-  };
-
   const pfnClientCmd = (cmd) => {
     if (typeof Module=='undefined') return;
     return Module.pfnClientCmd(cmd);
   };
 
   const ModuleReplace = {
+    print: function(text) {
+      ['OnServerRoundsEnd', 'TeamsWins'].forEach(evt => {
+        searchCB(text, evt, function() {
+          player.value.iKilled = {};
+          player.value.killedMe = {};
+        });
+      });
+    },
     _MsgFunc_DeathMsgJS: function(killer, victim, headshot, truncatedWeaponNamePtr) {
-      console.clear();
-      console.error('_MsgFunc_DeathMsgJS', { killer, victim, headshot, truncatedWeaponNamePtr });
       player.value.countKills(killer, victim, headshot, Pointer_stringify(truncatedWeaponNamePtr));
     },
-    _MsgFunc_HealthJS: function() {
-      ['keyup', 'keydown'].forEach(evtName => {
-        inputDispatch('keydown', ' ');
-        inputDispatch('keyup', ' ');
-      });
-    },
-    print: function(text) {
-      searchCB(text, "OnServerRoundsEnd", function() {
-        player.value.iKilled = {};
-        player.value.killedMe = {};
-      });
+    _MsgFunc_HealthJS: function(a, b, c) {
+      input.keyboard.press('Space', 500);
     },
   };
 
@@ -423,12 +556,6 @@
           };
         }
       }
-      
-      // _MsgFunc_DeathMsgJS(killer, victim, headshot, truncatedWeaponNamePtr) {},
-      // _MsgFunc_RadarJS() {},
-      // _DrawZAxisJS2(angle) {},
-      // _MsgFunc_HealthJS(health) {},
-      // _MsgFunc_DamageJS(health) {},
     }
   }, 10);
 </script>

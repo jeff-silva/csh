@@ -401,6 +401,10 @@
         "KeyX": {"keyCode": 88, "which": 88, "key": "x"},
         "KeyY": {"keyCode": 89, "which": 89, "key": "y"},
         "KeyZ": {"keyCode": 90, "which": 90, "key": "z"},
+        "ArrowUp": {"keyCode": 38, "which": 38, "key": "ArrowUp"},
+        "ArrowDown": {"keyCode": 40, "which": 40, "key": "ArrowDown"},
+        "ArrowLeft": {"keyCode": 37, "which": 37, "key": "ArrowLeft"},
+        "ArrowRight": {"keyCode": 39, "which": 39, "key": "ArrowRight"},
       },
       dispatch(type, key) {
         if (!this.keyboardEvents[key]) return;
@@ -526,6 +530,8 @@
     },
     _MsgFunc_HealthJS: function(a, b, c) {
       input.keyboard.press('Space', 500);
+      input.keyboard.press('KeyC', 500);
+      input.keyboard.press(Math.random()>.5 ? 'KeyA' : 'KeyD', 500);
     },
   };
 

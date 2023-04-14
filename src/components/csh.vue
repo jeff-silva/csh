@@ -529,8 +529,8 @@
       player.value.countKills(killer, victim, headshot, Pointer_stringify(truncatedWeaponNamePtr));
     },
     _MsgFunc_HealthJS: function(a, b, c) {
-      input.keyboard.press('Space', 500);
-      input.keyboard.press('KeyC', 500);
+      // input.keyboard.press('Space', 500);
+      // input.keyboard.press('KeyC', 500);
       input.keyboard.press(Math.random()>.5 ? 'KeyA' : 'KeyD', 500);
     },
   };
@@ -551,15 +551,18 @@
     if (!moduleFound && typeof Module!='undefined') {
       moduleFound = true;
 
-      for(let attr in Module) {
-        if (typeof Module[attr]=='function') {
-          const oldMethod = Module[attr];
-          Module[attr] = function() {
-            if (typeof ModuleReplace[attr]=='function') {
-              ModuleReplace[attr].apply(Module, arguments);
-            }
-            oldMethod.apply(Module, arguments);
-          };
+      if (!window.cshModuleReplaced) {
+        window.cshModuleReplaced = true;
+        for(let attr in Module) {
+          if (typeof Module[attr]=='function') {
+            const oldMethod = Module[attr];
+            Module[attr] = function() {
+              if (typeof ModuleReplace[attr]=='function') {
+                ModuleReplace[attr].apply(Module, arguments);
+              }
+              oldMethod.apply(Module, arguments);
+            };
+          }
         }
       }
     }

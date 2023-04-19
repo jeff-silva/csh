@@ -1,185 +1,191 @@
 <template>
-  <!-- notification -->
-  <v-snackbar
-    :model-value="true"
-    :timeout="-1"
-    :color="player.me.uid==player.lastKill.killer.uid? 'success': 'error'"
-    location="top"
-    v-if="player.lastKill"
+  <v-defaults-provider
+    :defaults="{
+      global: {},
+      VTextField: { density: 'compact', },
+      VSelect: { density: 'compact', },
+      VTextarea: { density: 'compact', },
+    }"
   >
-    <div class="d-flex align-center">
-      <div>{{ player.lastKill.killer.name }}</div>
-      <div class="hud-death-weapon mx-3 my-0">{{ player.lastKill.weaponLetter }}</div>
-      <div>{{ player.lastKill.victim.name }}</div>
+    <!-- notification -->
+    <v-snackbar
+      :model-value="true"
+      :timeout="-1"
+      :color="player.me.uid==player.lastKill.killer.uid? 'success': 'error'"
+      location="top"
+      v-if="player.lastKill"
+    >
+      <div class="d-flex align-center">
+        <div>{{ player.lastKill.killer.name }}</div>
+        <div class="hud-death-weapon mx-3 my-0">{{ player.lastKill.weaponLetter }}</div>
+        <div>{{ player.lastKill.victim.name }}</div>
+      </div>
+    </v-snackbar>
+  
+    <!-- target -->
+    <div style="position:fixed; top:50%; left:50%; width:0; height:0;">
+      <div style="position:absolute; width:5px; height:5px; border:solid 1px #00ff00; border-radius:50%; top:50%; left:50%; transform:translate(-50%, -50%);"></div>
     </div>
-  </v-snackbar>
-
-  <!-- target -->
-  <div style="position:fixed; top:50%; left:50%; width:0; height:0;">
-    <div style="position:absolute; width:5px; height:5px; border:solid 1px #00ff00; border-radius:50%; top:50%; left:50%; transform:translate(-50%, -50%);"></div>
-  </div>
-
-  <!-- bottom-right -->
-  <vue-drag-resize
-    v-bind="window1.bind"
-    @resizing="window1.onDragResize($event)"
-    @dragging="window1.onDragResize($event)"
-    style="z-index:9999!important;"
-    v-show="!window1.bind.outside"
-  >
-    <v-card class="font-default" style="height:100%; overflow:auto; text-align:left;">
-      <div ref="window1Ref">
-        <div class="d-flex flex-column border" style="height:100%;">
-          <div class="d-flex">
-            <v-tabs v-model="window1.tab" class="flex-grow-1">
-              <v-tab value="table"><v-icon>mdi-list-box-outline</v-icon></v-tab>
-              <v-tab value="sounds"><v-icon>mdi-volume-medium</v-icon></v-tab>
-              <!-- <v-tab value="settings"><v-icon>mdi-cog</v-icon></v-tab> -->
-            </v-tabs>
-            <v-btn
-              :icon="window1.bind.outside ? 'mdi-window-maximize' : 'mdi-window-restore'"
-              variant="text"
-              rounded="0"
-              @click="window1.toogleOutside()"
-            />
-          </div>
   
-          <!-- Table -->
-          <div v-if="window1.tab=='table'" style="flex-grow:1; overflow:auto;">
-            <v-table
-              density="compact"
-              style="font-size:12px;"
-              class="border-t"
-              v-if="player.enemies.length>0"
-            >
-              <colgroup>
-                <col>
-                <col width="10px" class="bg-green-lighten-3">
-                <col width="10px" class="bg-red-lighten-3">
-              </colgroup>
-              <thead>
-                <tr>
-                  <th>Your enemies</th>
-                  <th>IK</th>
-                  <th>KM</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  v-for="p in player.enemies"
-                >
-                  <td
-                    :class="{
-                      'bg-amber-lighten-4': p.teamnumber==1,
-                      'bg-blue-grey-lighten-2': p.teamnumber==2,
-                    }"
+    <!-- bottom-right -->
+    <vue-drag-resize
+      v-bind="window1.bind"
+      @resizing="window1.onDragResize($event)"
+      @dragging="window1.onDragResize($event)"
+      style="z-index:9999!important;"
+      v-show="!window1.bind.outside"
+    >
+      <v-card class="font-default" style="height:100%; overflow:auto; text-align:left;">
+        <div ref="window1Ref">
+          <div class="d-flex flex-column border" style="height:100%;">
+            <div class="d-flex">
+              <v-tabs v-model="window1.tab" class="flex-grow-1">
+                <v-tab value="table"><v-icon>mdi-list-box-outline</v-icon></v-tab>
+                <v-tab value="sounds"><v-icon>mdi-volume-medium</v-icon></v-tab>
+                <v-tab value="settings"><v-icon>mdi-cog</v-icon></v-tab>
+              </v-tabs>
+              <v-btn
+                :icon="window1.bind.outside ? 'mdi-window-maximize' : 'mdi-window-restore'"
+                variant="text"
+                rounded="0"
+                @click="window1.toogleOutside()"
+              />
+            </div>
+    
+            <!-- Table -->
+            <div v-if="window1.tab=='table'" style="flex-grow:1; overflow:auto;">
+              <v-table
+                density="compact"
+                style="font-size:12px;"
+                class="border-t"
+                v-if="player.enemies.length>0"
+              >
+                <colgroup>
+                  <col>
+                  <col width="10px" class="bg-green-lighten-3">
+                  <col width="10px" class="bg-red-lighten-3">
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th>Your enemies</th>
+                    <th>IK</th>
+                    <th>KM</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="p in player.enemies"
                   >
-                    {{ p.name }}
-                  </td>
-                  <td>{{ p.iKilled }}</td>
-                  <td>{{ p.killedMe }}</td>
-                </tr>
-              </tbody>
-            </v-table>
-            <v-table density="compact" style="font-size:12px;" class="border-t">
-              <colgroup>
-                <col>
-                <col width="10px" class="bg-green-lighten-3">
-                <col width="10px" class="bg-red-lighten-3">
-                <col width="10px" class="bg-green-lighten-3">
-                <col width="10px" class="bg-red-lighten-3">
-              </colgroup>
-              <thead>
-                <tr class="bg-white">
-                  <th>Top killers</th>
-                  <th title="Kills">K</th>
-                  <th title="Deaths">D</th>
-                  <th title="I killed">IK</th>
-                  <th title="Killed me">KM</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  v-for="(p, i) in player.list"
-                  :key="p.uid"
-                  :class="{
-                    'bg-indigo-lighten-4':p.uid==player.me.uid,
-                  }"
-                >
-                  <td
-                    :class="{
-                      'bg-amber-lighten-4': p.teamnumber==1,
-                      'bg-blue-grey-lighten-2': p.teamnumber==2,
-                    }"
-                  >
-                    {{ i+1 }}º - {{ p.name }}
-                  </td>
-                  <td>{{ p.frags }}</td>
-                  <td>{{ p.deaths }}</td>
-                  <td>{{ p.iKilled }}</td>
-                  <td>{{ p.killedMe }}</td>
-                </tr>
-              </tbody>
-            </v-table>
-          </div>
-  
-          <!-- Sounds -->
-          <div v-if="window1.tab=='sounds'" style="flex-grow:1; overflow:auto;">
-            <!-- https://www.myinstants.com/media/sounds/tome-rodrigo-faro_xDXKGwq.mp3 -->
-            <v-table class="border-t">
-              <colgroup>
-                <col width="100px">
-                <col width="*">
-                <col width="100px">
-              </colgroup>
-              <tbody>
-                <tr v-for="(_url, _numpad) in sound.sounds" :key="_numpad">
-                  <td>{{ _numpad }}</td>
-                  <td>
-                    <v-text-field
-                      v-model="sound.sounds[_numpad]"
-                      @input="sound.loadForced()"
-                      v-bind="{
-                        hideDetails: true,
-                        density: 'compact',
+                    <td
+                      :class="{
+                        'bg-amber-lighten-4': p.teamnumber==1,
+                        'bg-blue-grey-lighten-2': p.teamnumber==2,
                       }"
-                    />
-                  </td>
-                  <td class="pa-0">
-                    <v-btn
-                      block
-                      rounded="0"
-                      icon="mdi-play"
-                      size="x-small"
-                      @click="sound.play(_numpad)"
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </v-table>
-          </div>
+                    >
+                      {{ p.name }}
+                    </td>
+                    <td>{{ p.iKilled }}</td>
+                    <td>{{ p.killedMe }}</td>
+                  </tr>
+                </tbody>
+              </v-table>
+              <v-table density="compact" style="font-size:12px;" class="border-t">
+                <colgroup>
+                  <col>
+                  <col width="10px" class="bg-green-lighten-3">
+                  <col width="10px" class="bg-red-lighten-3">
+                  <col width="10px" class="bg-green-lighten-3">
+                  <col width="10px" class="bg-red-lighten-3">
+                </colgroup>
+                <thead>
+                  <tr class="bg-white">
+                    <th>Top killers</th>
+                    <th title="Kills">K</th>
+                    <th title="Deaths">D</th>
+                    <th title="I killed">IK</th>
+                    <th title="Killed me">KM</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="(p, i) in player.list"
+                    :key="p.uid"
+                    :class="{
+                      'bg-indigo-lighten-4':p.uid==player.me.uid,
+                    }"
+                  >
+                    <td
+                      :class="{
+                        'bg-amber-lighten-4': p.teamnumber==1,
+                        'bg-blue-grey-lighten-2': p.teamnumber==2,
+                      }"
+                    >
+                      {{ i+1 }}º - {{ p.name }}
+                    </td>
+                    <td>{{ p.frags }}</td>
+                    <td>{{ p.deaths }}</td>
+                    <td>{{ p.iKilled }}</td>
+                    <td>{{ p.killedMe }}</td>
+                  </tr>
+                </tbody>
+              </v-table>
+            </div>
+    
+            <!-- Sounds -->
+            <div v-if="window1.tab=='sounds'" style="flex-grow:1; overflow:auto;">
+              <!-- https://www.myinstants.com/media/sounds/tome-rodrigo-faro_xDXKGwq.mp3 -->
+              <v-table class="border-t">
+                <colgroup>
+                  <col width="100px">
+                  <col width="*">
+                  <col width="100px">
+                </colgroup>
+                <tbody>
+                  <tr v-for="(_url, _numpad) in sound.sounds" :key="_numpad">
+                    <td>{{ _numpad }}</td>
+                    <td>
+                      <v-text-field
+                        v-model="sound.sounds[_numpad]"
+                        @input="sound.loadForced()"
+                        v-bind="{ hideDetails: true }"
+                      />
+                    </td>
+                    <td class="pa-0">
+                      <v-btn
+                        block
+                        rounded="0"
+                        icon="mdi-play"
+                        size="x-small"
+                        @click="sound.play(_numpad)"
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              </v-table>
+            </div>
   
-          <!-- Sounds -->
-          <div v-if="window1.tab=='settings'" style="flex-grow:1; overflow:auto;">
-            Settings
-          </div>
-  
-          <div class="d-flex" v-if="debug">
-            <v-btn block @click="pfnClientCmd(`UpdR 1 0 0`)">UpdR</v-btn>
+            <div v-if="window1.tab=='settings'" class="pa-2" style="flex-grow:1; overflow:auto;">
+              <v-textarea v-bind="{ label: 'Watch players online' }" />
+              <v-textarea v-bind="{ label: 'Phrases when died' }" />
+            </div>
+    
+            <div class="d-flex" v-if="debug">
+              <v-btn block @click="pfnClientCmd(`UpdR 1 0 0`)">UpdR</v-btn>
+            </div>
           </div>
         </div>
-      </div>
+      </v-card>
+    </vue-drag-resize>
+  
+    <!-- debug -->
+    <v-card v-if="debug" style="position:fixed; z-index:999!important; bottom:15px; left:15px; max-height:400px; overflow:auto; text-align:left;">
+      <v-btn block @click="test.simulateKills()">test.simulateKills()</v-btn>
+      <v-btn block @click="test.simulateMyKills()">test.simulateMyKills()</v-btn>
+      <v-btn block @click="test.simulateMyDeaths()">test.simulateMyDeaths()</v-btn>
+      <v-btn block @click="pfnClientCmd('say hello world')">pfnClientCmd()</v-btn>
+      <pre>player.enemies: {{ player.enemies }}</pre>
     </v-card>
-  </vue-drag-resize>
-
-  <!-- debug -->
-  <v-card v-if="debug" style="position:fixed; z-index:999!important; bottom:15px; left:15px; max-height:400px; overflow:auto; text-align:left;">
-    <v-btn block @click="test.simulateKills()">test.simulateKills()</v-btn>
-    <v-btn block @click="test.simulateMyKills()">test.simulateMyKills()</v-btn>
-    <v-btn block @click="test.simulateMyDeaths()">test.simulateMyDeaths()</v-btn>
-    <v-btn block @click="pfnClientCmd('say hello world')">pfnClientCmd()</v-btn>
-    <pre>player.enemies: {{ player.enemies }}</pre>
-  </v-card>
+  </v-defaults-provider>
 </template>
 
 <script setup>
@@ -516,9 +522,10 @@
     return Module.pfnClientCmd(cmd);
   };
 
+  // Module replace
   const ModuleReplace = {
     print: function(text) {
-      ['OnServerRoundsEnd', 'TeamsWins'].forEach(evt => {
+      ['OnServerRoundsEnd'].forEach(evt => {
         searchCB(text, evt, function() {
           player.value.iKilled = {};
           player.value.killedMe = {};

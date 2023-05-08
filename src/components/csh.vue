@@ -1,27 +1,14 @@
 <template>
   <v-defaults-provider
     :defaults="{
-      global: {},
+      global: {
+        rounded: 0,
+      },
       VTextField: { density: 'compact', },
       VSelect: { density: 'compact', },
       VTextarea: { density: 'compact', },
     }"
   >
-    <!-- notification -->
-    <v-snackbar
-      :model-value="true"
-      :timeout="-1"
-      :color="player.me.uid==player.lastKill.killer.uid? 'success': 'error'"
-      location="top"
-      v-if="player.lastKill"
-    >
-      <div class="d-flex align-center">
-        <div>{{ player.lastKill.killer.name }}</div>
-        <div class="hud-death-weapon mx-3 my-0">{{ player.lastKill.weaponLetter }}</div>
-        <div>{{ player.lastKill.victim.name }}</div>
-      </div>
-    </v-snackbar>
-  
     <!-- target -->
     <div style="position:fixed; top:50%; left:50%; width:0; height:0;">
       <div style="position:absolute; width:5px; height:5px; border:solid 1px #00ff00; border-radius:50%; top:50%; left:50%; transform:translate(-50%, -50%);"></div>
@@ -36,8 +23,8 @@
       v-show="!window1.bind.outside"
     >
       <v-card class="font-default" style="height:100%; overflow:auto; text-align:left;">
-        <div ref="window1Ref">
-          <div class="d-flex flex-column border" style="height:100%;">
+        <div ref="window1Ref" style="height:100%;">
+          <div class="d-flex flex-column" style="height:100%;">
             <div class="d-flex">
               <v-tabs v-model="window1.tab" class="flex-grow-1">
                 <v-tab value="table"><v-icon>mdi-list-box-outline</v-icon></v-tab>
@@ -172,6 +159,23 @@
             <div class="d-flex" v-if="debug">
               <v-btn block @click="pfnClientCmd(`UpdR 1 0 0`)">UpdR</v-btn>
             </div>
+
+            <div>
+              <v-alert v-if="player.lastVictim" type="success">
+                <div class="d-flex align-center">
+                  <div>{{ player.lastVictim.killer.name }}</div>
+                  <div class="hud-death-weapon mx-3 my-0">{{ player.lastVictim.weaponLetter }}</div>
+                  <div>{{ player.lastVictim.victim.name }}</div>
+                </div>
+              </v-alert>
+              <v-alert v-if="player.lastKiller" type="error">
+                <div class="d-flex align-center">
+                  <div>{{ player.lastKiller.killer.name }}</div>
+                  <div class="hud-death-weapon mx-3 my-0">{{ player.lastKiller.weaponLetter }}</div>
+                  <div>{{ player.lastKiller.victim.name }}</div>
+                </div>
+              </v-alert>
+            </div>
           </div>
         </div>
       </v-card>
@@ -206,7 +210,8 @@
 
   const player = ref({
     me: false,
-    lastKill: false,
+    lastKiller: false,
+    lastVictim: false,
     iKilled: {},
     killedMe: {},
     enemies: [],
@@ -261,13 +266,13 @@
       if (killer.id==this.me.id) {
         this.iKilled[victim.id] = this.iKilled[victim.id] || 0;
         this.iKilled[victim.id] += 1;
-        this.lastKill = { headshot, weapon, weaponLetter, killer, victim };
+        this.lastVictim = { headshot, weapon, weaponLetter, killer, victim };
       }
 
       if (victim.id==this.me.id) {
         this.killedMe[killer.id] = this.killedMe[killer.id] || 0;
         this.killedMe[killer.id] += 1;
-        this.lastKill = { headshot, weapon, weaponLetter, killer, victim };
+        this.lastKiller = { headshot, weapon, weaponLetter, killer, victim };
       }
     },
   });

@@ -20,7 +20,7 @@
       @resizing="window1.onDragResize($event)"
       @dragging="window1.onDragResize($event)"
       style="z-index:9999!important;"
-      v-show="!window1.bind.outside"
+      v-show="!window1.bind.outside && window1.visible"
     >
       <v-card class="font-default" style="height:100%; overflow:auto; text-align:left;">
         <div ref="window1Ref" style="height:100%;">
@@ -193,9 +193,10 @@
 </template>
 
 <script setup>
-  import { ref, onMounted, onUnmounted } from 'vue';
+  import { ref, reactive, onMounted, onUnmounted } from 'vue';
   import { useIntervalFn, useEventListener, useStorage } from '@vueuse/core';
   import _ from 'lodash';
+  import hotkeys from 'hotkeys-js';
 
   import players from '@/assets/players.js';
   import env from '@/assets/env.js';
@@ -208,7 +209,7 @@
 
   const debug = false;
 
-  const player = ref({
+  const player = reactive({
     me: false,
     lastKiller: false,
     lastVictim: false,
@@ -277,8 +278,14 @@
     },
   });
 
+  hotkeys('ctrl+e', (ev, handler) => {
+    ev.preventDefault();
+    window1.visible = !window1.visible;
+  });
+
   const window1Ref = ref(null);
-  const window1 = ref({
+  const window1 = reactive({
+    visible: false,
     tab: 'table',
     bind: useStorage('csh-window1-bind', {
       isActive: true,
@@ -347,19 +354,19 @@
   });
 
   onMounted(() => {
-    if (window1.value.bind.outside) {
-      window1.value.toogleOutside(true);
+    if (window1.bind.outside) {
+      window1.toogleOutside(true);
     }
   });
 
   onUnmounted(() => {
-    if (window1.value.win) {
-      window1.value.win.close();
+    if (window1.win) {
+      window1.win.close();
     }
   });
 
   useEventListener(window, 'beforeunload', (ev) => {
-    window1.value.win.close();
+    window1.win.close();
   });
 
   const input = {
@@ -440,7 +447,7 @@
 
   const numpads = _.range(1, 9).map(n => `Numpad${n}`);
 
-  const sound = ref({
+  const sound = reactive({
     sounds: useStorage('csh-sounds', {
       Numpad1: '',
       Numpad2: '',
@@ -474,13 +481,13 @@
   });
 
   useEventListener(document, 'keydown', (ev) => {
-    if (typeof sound.value.sounds[ev.code]=='undefined') return;
+    if (typeof sound.sounds[ev.code]=='undefined') return;
     document.activeElement.blur();
-    sound.value.play(ev.code);
+    sound.play(ev.code);
   });
 
 
-  const test = ref({
+  const test = reactive({
     depthTest: false,
     removeUser() {
       const key = Object.keys(g_PlayerExtraInfo).at(0);
@@ -496,14 +503,14 @@
       }, options);
 
       for(let i=0; i<options.times; i++) {
-        const killer = options.killer ? player.value.getPlayer(options.killer) : _.sample(player.value.list);
-        const victim = options.victim ? player.value.getPlayer(options.victim) : _.sample(player.value.list.filter(p => p.uid != killer.uid));
+        const killer = options.killer ? player.getPlayer(options.killer) : _.sample(player.list);
+        const victim = options.victim ? player.getPlayer(options.victim) : _.sample(player.list.filter(p => p.uid != killer.uid));
         const weapon = options.weapon ||  _.sample(Object.keys(weaponToLetter));
         const headshot = options.headshot || Math.random() >= .5;
 
         g_PlayerExtraInfo[ killer.uid ]['frags'] = parseInt(killer.frags) + 1;
         g_PlayerExtraInfo[ victim.uid ]['deaths'] = parseInt(victim.deaths) + 1;
-        player.value.countKills(killer.id, victim.id, headshot, weapon);
+        player.countKills(killer.id, victim.id, headshot, weapon);
       }
     },
     simulateMyKills(options) {
@@ -515,11 +522,11 @@
   });
 
   useEventListener(window, 'keydown', (ev) => {
-    if (ev.code=='KeyE') test.value.depthTest = true;
+    if (ev.code=='KeyE') test.depthTest = true;
   });
 
   useEventListener(window, 'keyup', (ev) => {
-    if (ev.code=='KeyE') test.value.depthTest = false;
+    if (ev.code=='KeyE') test.depthTest = false;
   });
 
   const pfnClientCmd = (cmd) => {
@@ -532,26 +539,26 @@
     print: function(text) {
       ['OnServerRoundsEnd'].forEach(evt => {
         searchCB(text, evt, function() {
-          player.value.iKilled = {};
-          player.value.killedMe = {};
+          player.iKilled = {};
+          player.killedMe = {};
         });
       });
     },
     _MsgFunc_DeathMsgJS: function(killer, victim, headshot, truncatedWeaponNamePtr) {
-      player.value.countKills(killer, victim, headshot, Pointer_stringify(truncatedWeaponNamePtr));
+      player.countKills(killer, victim, headshot, Pointer_stringify(truncatedWeaponNamePtr));
     },
     _MsgFunc_HealthJS: function(a, b, c) {
       // input.keyboard.press('Space', 500);
       // input.keyboard.press('KeyC', 500);
-      input.keyboard.press(Math.random()>.5 ? 'KeyA' : 'KeyD', 500);
+      // input.keyboard.press(Math.random()>.5 ? 'KeyA' : 'KeyD', 500);
     },
   };
 
   let moduleFound = false;
   const interval = useIntervalFn(() => {
-    player.value.loadFromPlayersList();
+    player.loadFromPlayersList();
 
-    if (test.value.depthTest) {
+    if (test.depthTest) {
       const canvas = document.querySelector('#canvas');
       if (canvas) {
         let gl = canvas.getContext('webgl');

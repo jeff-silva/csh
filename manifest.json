@@ -9,10 +9,19 @@
       "js": ["ext/csh-init.js"]
     }
   ],
+  "permissions": [
+    "tabs",
+    "scripting",
+    "activeTab"
+  ],
   "web_accessible_resources": [
     {
-      "matches": ["http://*/*", "https://*/*"],
-      "resources": ["ext/csh-inject.js"]
+      "matches": ["<all_urls>"],
+      "resources": [
+        "ext/csh-init.js",
+        "dist/assets/index-db68f54c.js",
+        "dist/assets/index-839faf21.css"
+      ]
     }
   ]
 }
